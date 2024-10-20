@@ -27,8 +27,8 @@ pub(crate) enum Rank {
 
 #[derive(Debug)]
 pub(crate) struct Card {
-	suit: Suit,
-	rank: Rank,
+	pub(crate) suit: Suit,
+	pub(crate) rank: Rank,
 }
 
 impl Card {

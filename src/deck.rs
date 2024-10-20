@@ -4,7 +4,7 @@ use strum::IntoEnumIterator;
 
 #[derive(Debug)]
 pub(crate) struct Deck {
-	cards: Vec<Card>,
+	pub(crate) cards: Vec<Card>,
 }
 
 impl Deck {
