@@ -2,6 +2,7 @@ use crate::card::{Card, Suit, Rank};
 
 use strum::IntoEnumIterator;
 
+#[derive(Debug)]
 pub(crate) struct Deck {
 	cards: Vec<Card>,
 }

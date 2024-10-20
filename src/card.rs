@@ -1,6 +1,6 @@
 use strum::EnumIter;
 
-#[derive(Clone, Copy, EnumIter)]
+#[derive(Clone, Copy, Debug, EnumIter)]
 pub(crate) enum Suit {
 	Clubs,
 	Diamonds,
@@ -8,7 +8,7 @@ pub(crate) enum Suit {
 	Spades,
 }
 
-#[derive(Clone, Copy, EnumIter)]
+#[derive(Clone, Copy, Debug, EnumIter)]
 pub(crate) enum Rank {
 	Ace,
 	Two,
@@ -25,6 +25,7 @@ pub(crate) enum Rank {
 	King,
 }
 
+#[derive(Debug)]
 pub(crate) struct Card {
 	suit: Suit,
 	rank: Rank,
