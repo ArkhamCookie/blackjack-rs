@@ -1,4 +1,7 @@
-use crate::card::{Card, Suit, Rank};
+use crate::card::{Card, Rank, Suit};
+
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 
 use strum::IntoEnumIterator;
 
@@ -17,9 +20,17 @@ impl Deck {
 					let card = Card::new(suit, rank);
 					cards.push(card);
 				}
-			};
+			}
 			deck_count -= 1;
 		}
+
+		Deck { cards }
+	}
+
+	pub(crate) fn shuffle(&self) -> Self {
+		let deck = Deck::new(1);
+		let mut cards = deck.cards;
+		cards.shuffle(&mut thread_rng());
 
 		Deck { cards }
 	}
