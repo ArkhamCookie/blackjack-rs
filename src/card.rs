@@ -33,9 +33,6 @@ pub(crate) struct Card {
 
 impl Card {
 	pub(crate) fn new(suit: Suit, rank: Rank) -> Self {
-		Self {
-			suit,
-			rank,
-		}
+		Self { suit, rank }
 	}
 }
