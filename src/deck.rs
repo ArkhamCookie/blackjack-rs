@@ -27,7 +27,7 @@ impl Deck {
 		Deck { cards }
 	}
 
-	pub(crate) fn shuffle(&self, deck_count: u8) -> Self {
+	pub(crate) fn shuffle(deck_count: u8) -> Self {
 		let deck = Deck::new(deck_count);
 		let mut cards = deck.cards;
 		cards.shuffle(&mut thread_rng());
