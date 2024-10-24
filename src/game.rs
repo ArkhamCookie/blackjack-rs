@@ -1,8 +1,7 @@
 use crate::card::Card;
 use crate::deck::Deck;
 
-pub(crate) fn deal() -> (Vec<Card>, Vec<Card>) {
-	let deck = Deck::shuffle(1);
+pub(crate) fn deal(deck: Deck) -> (Vec<Card>, Vec<Card>) {
 	let mut cards = deck.cards;
 	let mut dealer_hand = Vec::new();
 	let mut player_hand = Vec::new();
