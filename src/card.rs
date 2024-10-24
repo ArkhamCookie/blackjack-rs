@@ -25,7 +25,7 @@ pub(crate) enum Rank {
 	King,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub(crate) struct Card {
 	pub(crate) suit: Suit,
 	pub(crate) rank: Rank,
