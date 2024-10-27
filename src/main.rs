@@ -2,7 +2,6 @@ use deck::Deck;
 
 mod card;
 mod deck;
-mod game;
 
 fn main() {
     let deck = Deck::shuffle(1);
