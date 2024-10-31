@@ -45,6 +45,8 @@ fn main() {
         cards.remove(0);
         
         // Check for blackjack or bust
+
+        
         print!("Your hand: ");
         for card in &player_hand {
             print!("{:?}, ", card.rank);
