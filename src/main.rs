@@ -1,3 +1,6 @@
+use std::cmp::Ordering;
+
+use card::Card;
 use deck::Deck;
 
 use inquire::Select;
@@ -33,7 +36,7 @@ fn main() {
     println!("Your Hand: {:?}, {:?},", player_hand[0].rank, player_hand[1].rank);
 
     // Get player's action
-    loop {
+    'player_action: loop {
         let options = vec!["Hit", "Stay"];
         let answer = Select::new("Hit or stay?", options).prompt().expect("issue getting user action");
 
@@ -44,13 +47,27 @@ fn main() {
         player_hand.push(cards[0]);
         cards.remove(0);
         
-        // Check for blackjack or bust
+        let mut score: u8 = 0;
 
-        
         print!("Your hand: ");
         for card in &player_hand {
+            score += Card::value(card);
             print!("{:?}, ", card.rank);
+
+            // Check for blackjack or bust
+            match score.cmp(&21) {
+                Ordering::Less => (),
+                Ordering::Equal => {
+                    println!("\nBlackjack!");
+                    break 'player_action
+                }
+                Ordering::Greater => {
+                    println!("\nBusted!");
+                    break 'player_action
+                }
+            }
         }
         println!();
+        // println!("{}", score);
     }
 }
