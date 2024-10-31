@@ -24,4 +24,9 @@ fn main() {
     // [Setup] Deal 1 card to dealer (face up)
     dealer_hand.push(cards[0]);
     cards.remove(0);
+
+    // Basic display
+    println!("Dealer's Hand: Face Down, {:?}", dealer_hand[1].rank);
+
+    println!("Your Hand: {:?}, {:?}", player_hand[0].rank, player_hand[1].rank);
 }
