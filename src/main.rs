@@ -1,5 +1,7 @@
 use deck::Deck;
 
+use inquire::Select;
+
 mod card;
 mod deck;
 
@@ -28,5 +30,25 @@ fn main() {
     // Basic display
     println!("Dealer's Hand: Face Down, {:?}", dealer_hand[1].rank);
 
-    println!("Your Hand: {:?}, {:?}", player_hand[0].rank, player_hand[1].rank);
+    println!("Your Hand: {:?}, {:?},", player_hand[0].rank, player_hand[1].rank);
+
+    // Get player's action
+    loop {
+        let options = vec!["Hit", "Stay"];
+        let answer = Select::new("Hit or stay?", options).prompt().expect("issue getting user action");
+
+        if answer == "Stay" {
+            break
+        }
+
+        player_hand.push(cards[0]);
+        cards.remove(0);
+        
+        // Check for blackjack or bust
+        print!("Your hand: ");
+        for card in &player_hand {
+            print!("{:?}, ", card.rank);
+        }
+        println!();
+    }
 }
