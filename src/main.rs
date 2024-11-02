@@ -36,7 +36,7 @@ fn main() {
     println!("Your Hand: {:?}, {:?},", player_hand[0].rank, player_hand[1].rank);
 
     // Get player's action
-    'player_action: loop {
+    loop {
         let options = vec!["Hit", "Stay"];
         let answer = Select::new("Hit or stay?", options).prompt().expect("issue getting user action");
 
