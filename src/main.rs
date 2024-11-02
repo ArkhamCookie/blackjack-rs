@@ -70,4 +70,37 @@ fn main() {
         println!();
         // println!("{}", score);
     }
+
+    'dealer_action: loop {
+        let mut score: u8 = 0;
+
+        print!("Dealer hand: ");
+        for card in &dealer_hand {
+            score += Card::value(card);
+            print!("{:?}, ", card.rank);
+
+            // Check for blackjack or bust
+            match score.cmp(&21) {
+                Ordering::Less => (),
+                Ordering::Equal => {
+                    println!("\nBlackjack!");
+                    break 'dealer_action
+                }
+                Ordering::Greater => {
+                    println!("\nBusted!");
+                    break 'dealer_action
+                }
+            }
+        }
+        println!();
+        // println!("{}", score);
+
+        if score >= 17 {
+            println!("Dealer stays.");
+            break 'dealer_action
+        }
+
+        dealer_hand.push(cards[0]);
+        cards.remove(0);
+    }
 }
