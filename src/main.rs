@@ -87,8 +87,8 @@ fn main() {
                     return
                 }
                 Ordering::Greater => {
-                    println!("\nBusted!");
-                    break 'dealer_action
+                    println!("\nDealer busts!");
+                    return
                 }
             }
         }
