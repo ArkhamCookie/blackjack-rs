@@ -59,7 +59,7 @@ fn main() {
                 Ordering::Less => (),
                 Ordering::Equal => {
                     println!("\nBlackjack!");
-                    break 'player_action
+                    return
                 }
                 Ordering::Greater => {
                     println!("\nBusted!");
