@@ -63,7 +63,7 @@ fn main() {
                 }
                 Ordering::Greater => {
                     println!("\nBusted!");
-                    break 'player_action
+                    return
                 }
             }
         }
