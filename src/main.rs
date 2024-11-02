@@ -83,8 +83,8 @@ fn main() {
             match score.cmp(&21) {
                 Ordering::Less => (),
                 Ordering::Equal => {
-                    println!("\nBlackjack!");
-                    break 'dealer_action
+                    println!("\nDealer gets blackjack!");
+                    return
                 }
                 Ordering::Greater => {
                     println!("\nBusted!");
