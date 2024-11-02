@@ -26,6 +26,7 @@ pub(crate) enum Rank {
 }
 
 #[derive(Clone, Copy, Debug)]
+#[allow(dead_code)]
 pub(crate) struct Card {
 	pub(crate) suit: Suit,
 	pub(crate) rank: Rank,
