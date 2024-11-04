@@ -34,6 +34,10 @@ fn main() {
     println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
     println!("Your Hand: {}, {}", Card::unicode(&player_hand[0]), Card::unicode(&player_hand[1]));
 
+    // Setup score vars for comparing
+    let mut player_score: u8 = 0;
+    let mut dealer_score: u8 = 0;
+
 	// Get player's action
 	loop {
 		let options = vec!["Hit", "Stay"];
@@ -67,7 +71,10 @@ fn main() {
 					return;
 				}
 			}
+
 		}
+        player_score = score;
+
 		println!();
 		// println!("{}", score);
 	}
@@ -93,6 +100,8 @@ fn main() {
 				}
 			}
 		}
+        dealer_score = score;
+
 		println!();
 		// println!("{}", score);
 
@@ -104,4 +113,10 @@ fn main() {
 		dealer_hand.push(cards[0]);
 		cards.remove(0);
 	}
+
+    match player_score.cmp(&dealer_score) {
+        Ordering::Less => println!("Dealer wins!"),
+        Ordering::Greater => println!("Player wins!"),
+        _ => panic!("error getting score"),
+    }
 }
