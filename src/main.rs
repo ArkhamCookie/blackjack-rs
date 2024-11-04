@@ -36,7 +36,7 @@ fn main() {
 
     // Setup score vars for comparing
     let mut player_score: u8 = 0;
-    let mut dealer_score: u8 = 0;
+    let mut dealer_score: u8;
 
 	// Get player's action
 	loop {
@@ -118,6 +118,6 @@ fn main() {
     match player_score.cmp(&dealer_score) {
         Ordering::Less => println!("Dealer wins!"),
         Ordering::Greater => println!("Player wins!"),
-        _ => panic!("error getting score"),
+        _ => panic!("issue getting score"),
     }
 }
