@@ -114,6 +114,7 @@ fn main() {
 		cards.remove(0);
 	}
 
+    // Get winner based on score
     match player_score.cmp(&dealer_score) {
         Ordering::Less => println!("Dealer wins!"),
         Ordering::Greater => println!("Player wins!"),
