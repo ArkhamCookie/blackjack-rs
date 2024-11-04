@@ -54,4 +54,77 @@ impl Card {
 			Rank::King => 10,
 		}
 	}
+
+	pub(crate) fn unicode(card: &Card) -> String {
+		match card.suit {
+			Suit::Clubs => {
+				match card.rank {
+					Rank::Ace => String::from("🃑"),
+					Rank::Two => String::from("🃒"),
+					Rank::Three => String::from("🃓"),
+					Rank::Four => String::from("🃔"),
+					Rank::Five => String::from("🃕"),
+					Rank::Six => String::from("🃖"),
+					Rank::Seven => String::from("🃗"),
+					Rank::Eight => String::from("🃘"),
+					Rank::Nine => String::from("🃙"),
+					Rank::Ten => String::from("🃚"),
+					Rank::Jack => String::from("🃛"),
+					Rank::Queen => String::from("🃝"),
+					Rank::King => String::from("🃞"),
+				}
+			},
+			Suit::Diamonds => {
+				match card.rank {
+					Rank::Ace => String::from("🃁"),
+					Rank::Two => String::from("🃂"),
+					Rank::Three => String::from("🃃"),
+					Rank::Four => String::from("🃄"),
+					Rank::Five => String::from("🃅"),
+					Rank::Six => String::from("🃆"),
+					Rank::Seven => String::from("🃇"),
+					Rank::Eight => String::from("🃈"),
+					Rank::Nine => String::from("🃉"),
+					Rank::Ten => String::from("🃊"),
+					Rank::Jack => String::from("🃋"),
+					Rank::Queen => String::from("🃍"),
+					Rank::King => String::from("🃎"),
+				}
+			},
+			Suit::Hearts => {
+				match card.rank {
+					Rank::Ace => String::from("🂱"),
+					Rank::Two => String::from("🂲"),
+					Rank::Three => String::from("🂳"),
+					Rank::Four => String::from("🂴"),
+					Rank::Five => String::from("🂵"),
+					Rank::Six => String::from("🂶"),
+					Rank::Seven => String::from("🂷"),
+					Rank::Eight => String::from("🂸"),
+					Rank::Nine => String::from("🂹"),
+					Rank::Ten => String::from("🂺"),
+					Rank::Jack => String::from("🂻"),
+					Rank::Queen => String::from("🂽"),
+					Rank::King => String::from("🂾"),
+				}
+			},
+			Suit::Spades => {
+				match card.rank {
+					Rank::Ace => String::from("🂡"),
+					Rank::Two => String::from("🂢"),
+					Rank::Three => String::from("🂣"),
+					Rank::Four => String::from("🂤"),
+					Rank::Five => String::from("🂥"),
+					Rank::Six => String::from("🂦"),
+					Rank::Seven => String::from("🂧"),
+					Rank::Eight => String::from("🂨"),
+					Rank::Nine => String::from("🂩"),
+					Rank::Ten => String::from("🂪"),
+					Rank::Jack => String::from("🂫"),
+					Rank::Queen => String::from("🂭"),
+					Rank::King => String::from("🂮"),
+				}
+			},
+		}
+	}
 }
