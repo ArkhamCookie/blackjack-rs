@@ -30,13 +30,13 @@ fn main() {
 	dealer_hand.push(cards[0]);
 	cards.remove(0);
 
-	// Basic display
-	println!("Dealer's Hand: Face Down, {:?}", dealer_hand[1].rank);
+    // Display starting hand
+    println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
+    println!("Your Hand: {}, {}", Card::unicode(&player_hand[0]), Card::unicode(&player_hand[1]));
 
-	println!(
-		"Your Hand: {:?}, {:?},",
-		player_hand[0].rank, player_hand[1].rank
-	);
+    // Setup score vars for comparing
+    let mut player_score: u8 = 0;
+    let mut dealer_score: u8;
 
 	// Get player's action
 	loop {
@@ -57,7 +57,7 @@ fn main() {
 		print!("Your hand: ");
 		for card in &player_hand {
 			score += Card::value(card);
-			print!("{:?}, ", card.rank);
+			print!("{}, ", Card::unicode(card));
 
 			// Check for blackjack or bust
 			match score.cmp(&21) {
@@ -71,7 +71,10 @@ fn main() {
 					return;
 				}
 			}
+
 		}
+        player_score = score;
+
 		println!();
 		// println!("{}", score);
 	}
@@ -82,7 +85,7 @@ fn main() {
 	    print!("Dealer hand: ");
 		for card in &dealer_hand {
 			score += Card::value(card);
-			print!("{:?}, ", card.rank);
+			print!("{}, ", Card::unicode(card));
 
 			// Check for blackjack or bust
 			match score.cmp(&21) {
@@ -97,6 +100,8 @@ fn main() {
 				}
 			}
 		}
+        dealer_score = score;
+
 		println!();
 		// println!("{}", score);
 
@@ -108,4 +113,11 @@ fn main() {
 		dealer_hand.push(cards[0]);
 		cards.remove(0);
 	}
+
+    // Get winner based on score
+    match player_score.cmp(&dealer_score) {
+        Ordering::Less => println!("Dealer wins!"),
+        Ordering::Greater => println!("Player wins!"),
+        _ => panic!("issue getting score"),
+    }
 }
