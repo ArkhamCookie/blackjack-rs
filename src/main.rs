@@ -137,7 +137,7 @@ fn main() {
 	// Get winner based on score
 	match player_score.cmp(&dealer_score) {
 		Ordering::Less => println!("Dealer wins!"),
+		Ordering::Equal => println!("Dealer & Player tie!"),
 		Ordering::Greater => println!("Player wins!"),
-		_ => panic!("issue getting score"),
 	}
 }
