@@ -41,6 +41,16 @@ fn main() {
 	// Setup score vars for comparing
 	let mut player_score: u8 = 0;
 	let mut dealer_score: u8;
+	let mut score: u8 = 0;
+
+	for card in &player_hand {
+		score += Card::value(card);
+
+		if score == 21 {
+			println!("\nBlackjack!");
+			return;
+		}
+	}
 
 	// Get player's action
 	loop {
@@ -56,7 +66,7 @@ fn main() {
 		player_hand.push(cards[0]);
 		cards.remove(0);
 
-		let mut score: u8 = 0;
+		score = 0;
 
 		print!("Your hand: ");
 		'player_action: for card in &player_hand {
