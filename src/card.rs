@@ -8,7 +8,7 @@ pub(crate) enum Suit {
 	Spades,
 }
 
-#[derive(Clone, Copy, Debug, EnumIter)]
+#[derive(Clone, Copy, Debug, EnumIter, PartialEq)]
 pub(crate) enum Rank {
 	Ace,
 	Two,

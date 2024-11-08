@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use card::Card;
+use card::{Card, Rank};
 use deck::Deck;
 
 use inquire::Select;
@@ -59,7 +59,7 @@ fn main() {
 		let mut score: u8 = 0;
 
 		print!("Your hand: ");
-		for card in &player_hand {
+		'player_action: for card in &player_hand {
 			score += Card::value(card);
 			print!("{}, ", Card::unicode(card));
 
@@ -71,6 +71,13 @@ fn main() {
 					return;
 				}
 				Ordering::Greater => {
+					// Check if player has an ace
+					for card in &player_hand {
+						if card.rank == Rank::Ace {
+							score -= 10;
+							continue 'player_action;
+						}
+					}
 					println!("\nBusted!");
 					return;
 				}
