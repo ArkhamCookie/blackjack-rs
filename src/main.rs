@@ -31,11 +31,12 @@ fn main() {
 	cards.remove(0);
 
 	// Display starting hand
-	println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
+	// println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
+	println!("Dealer's Hand:\n┌────────┐\n│        │\n│        │\n│        │\n│        │\n└────────┘\n{}",dealer_hand[1]);
 	println!(
-		"Your Hand: {}, {}",
-		Card::unicode(&player_hand[0]),
-		Card::unicode(&player_hand[1])
+		"Your Hand: \n{}\n{}",
+		&player_hand[0],
+		&player_hand[1],
 	);
 
 	// Setup score vars for comparing
@@ -68,16 +69,16 @@ fn main() {
 
 		score = 0;
 
-		print!("Your hand: ");
+		println!("Your hand: ");
 		'player_action: for card in &player_hand {
 			score += Card::value(card);
-			print!("{}, ", Card::unicode(card));
+			print!("{}\n", card);
 
 			// Check for blackjack or bust
 			match score.cmp(&21) {
 				Ordering::Less => (),
 				Ordering::Equal => {
-					println!("\nBlackjack!");
+					println!("Blackjack!");
 					return;
 				}
 				Ordering::Greater => {
@@ -88,7 +89,7 @@ fn main() {
 							continue 'player_action;
 						}
 					}
-					println!("\nBusted!");
+					println!("Busted!");
 					return;
 				}
 			}
@@ -102,10 +103,10 @@ fn main() {
 	'dealer_action: loop {
 		let mut score: u8 = 0;
 
-		print!("Dealer hand: ");
+		println!("Dealer hand: ");
 		for card in &dealer_hand {
 			score += Card::value(card);
-			print!("{}, ", Card::unicode(card));
+			print!("{}\n", card);
 
 			// Check for blackjack or bust
 			match score.cmp(&21) {
