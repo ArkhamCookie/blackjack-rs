@@ -144,6 +144,10 @@ impl fmt::Display for Card {
 		};
 		let suit_unicode = Suit::unicode(self.suit);
 
+		if self.rank == Rank::Ten {
+			return write!(f, "┌────────┐\n│ {}   {} │\n│        │\n│        │\n│ {}   {} │\n└────────┘", rank, suit_unicode, suit_unicode, rank)
+		}
+
 		write!(f, "┌────────┐\n│ {}    {} │\n│        │\n│        │\n│ {}    {} │\n└────────┘", rank, suit_unicode, suit_unicode, rank)
 	}
 }
