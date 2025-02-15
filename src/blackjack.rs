@@ -70,8 +70,8 @@ pub(crate) fn handle_aces(hand: &Vec<Card>) -> u8 {
 
 #[cfg(test)]
 mod tests {
-	use crate::card::{Card, Rank, Suit};
 	use crate::blackjack::check_blackjack;
+	use crate::card::{Card, Rank, Suit};
 
 	#[test]
 	fn check_blackjack_equal_test() {
