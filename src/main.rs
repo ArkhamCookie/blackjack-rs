@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use blackjack::check_blackjack;
+use blackjack::{check_aces, check_blackjack, AceEvents};
 use card::{Card, Rank};
 use deck::Deck;
 
@@ -70,31 +70,22 @@ fn main() {
 
 			// Check for blackjack or bust
 			if check_blackjack(&player_hand) {
-					println!("Blackjack!");
-					return;
+				println!("Blackjack!");
+				return;
 			}
 
 			if score > 21 {
 				// Check and handle if player has an ace
-				let mut ace_score = score;
-				for card in &player_hand {
-					if card.rank == Rank::Ace {
-						ace_score -= 10;
-
-						match ace_score.cmp(&21) {
-							Ordering::Less => {
-								continue 'player_action;
-							}
-							Ordering::Equal => {
-								println!("Blackjack!");
-								return;
-							}
-							Ordering::Greater => {},
-						}
+				match check_aces(&player_hand) {
+					AceEvents::Safe => {
+						continue 'player_action;
 					}
+					AceEvents::BustNone => {
+						println!("Busted!");
+						return;
+					}
+					AceEvents::BustAces => {}
 				}
-				println!("Busted!");
-				return;
 			}
 		}
 		player_score = score;
