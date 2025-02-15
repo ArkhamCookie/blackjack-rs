@@ -69,12 +69,12 @@ fn main() {
 			print!("{}\n", card);
 
 			// Check for blackjack or bust
-			match score.cmp(&21) {
-				Ordering::Less => (),
-				Ordering::Equal => {
+			if check_blackjack(&player_hand) {
 					println!("Blackjack!");
 					return;
-				}
+			}
+
+			match score.cmp(&21) {
 				Ordering::Greater => {
 					// Check and handle if player has an ace
 					let mut ace_score = score;
@@ -90,13 +90,14 @@ fn main() {
 									println!("Blackjack!");
 									return;
 								}
-								Ordering::Greater => (),
+								Ordering::Greater => {},
 							}
 						}
 					}
 					println!("Busted!");
 					return;
 				}
+				_ => {},
 			}
 		}
 		player_score = score;
