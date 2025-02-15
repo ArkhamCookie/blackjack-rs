@@ -33,11 +33,7 @@ fn main() {
 	// Display starting hand
 	// println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
 	println!("Dealer's Hand:\n┌────────┐\n│        │\n│        │\n│        │\n│        │\n└────────┘\n{}",dealer_hand[1]);
-	println!(
-		"Your Hand: \n{}\n{}",
-		&player_hand[0],
-		&player_hand[1],
-	);
+	println!("Your Hand: \n{}\n{}", &player_hand[0], &player_hand[1]);
 
 	// Setup score vars for comparing
 	let mut player_score: u8 = 0;
@@ -82,11 +78,22 @@ fn main() {
 					return;
 				}
 				Ordering::Greater => {
-					// Check if player has an ace
+					// Check and handle if player has an ace
+					let mut ace_score = score;
 					for card in &player_hand {
 						if card.rank == Rank::Ace {
-							score -= 10;
-							continue 'player_action;
+							ace_score -= 10;
+
+							match ace_score.cmp(&21) {
+								Ordering::Less => {
+									continue 'player_action;
+								}
+								Ordering::Equal => {
+									println!("Blackjack!");
+									return;
+								}
+								Ordering::Greater => (),
+							}
 						}
 					}
 					println!("Busted!");
