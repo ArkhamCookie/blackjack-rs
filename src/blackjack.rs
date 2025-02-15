@@ -23,17 +23,13 @@ pub(crate) fn check_blackjack(hand: &Vec<Card>) -> bool {
 
 pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
 	let mut score = 0;
-
-	for card in hand {
-		score += Card::value(card);
-	}
-
 	let mut aces: u8 = 0;
 
 	for card in hand {
 		if card.rank == Rank::Ace {
 			aces += 1;
 		}
+		score += Card::value(card);
 	}
 
 	if score > 21 && aces == 0 {
