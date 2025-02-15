@@ -67,3 +67,38 @@ pub(crate) fn handle_aces(hand: &Vec<Card>) -> u8 {
 
 	score
 }
+
+#[cfg(test)]
+mod tests {
+	use crate::card::{Card, Rank, Suit};
+	use crate::blackjack::check_blackjack;
+
+	#[test]
+	fn check_blackjack_equal_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Six));
+		hand.push(Card::new(Suit::Spades, Rank::Five));
+
+		assert_eq!(check_blackjack(&hand), true);
+	}
+
+	#[test]
+	fn check_blackjack_under_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Jack));
+
+		assert_eq!(check_blackjack(&hand), false);
+	}
+
+	#[test]
+	fn check_blackjack_over_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Jack));
+
+		assert_eq!(check_blackjack(&hand), false);
+	}
+}
