@@ -6,6 +6,7 @@ pub(crate) enum AceEvents {
 	BustAces,
 }
 
+/// Check if hand has blackjack
 pub(crate) fn check_blackjack(hand: &Vec<Card>) -> bool {
 	let mut score = 0;
 
