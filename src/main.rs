@@ -114,7 +114,6 @@ fn main() {
 		player_score = score;
 
 		println!();
-		// println!("{}", score);
 	}
 
 	'dealer_action: loop {
