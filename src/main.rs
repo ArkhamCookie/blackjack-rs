@@ -1,10 +1,12 @@
 use std::cmp::Ordering;
 
+use blackjack::check_blackjack;
 use card::{Card, Rank};
 use deck::Deck;
 
 use inquire::Select;
 
+mod blackjack;
 mod card;
 mod deck;
 
@@ -38,15 +40,11 @@ fn main() {
 	// Setup score vars for comparing
 	let mut player_score: u8 = 0;
 	let mut dealer_score: u8;
-	let mut score: u8 = 0;
+	let mut score: u8;
 
-	for card in &player_hand {
-		score += Card::value(card);
-
-		if score == 21 {
-			println!("\nBlackjack!");
-			return;
-		}
+	if check_blackjack(&player_hand) {
+		println!("Blackjack!");
+		return;
 	}
 
 	// Get player's action
