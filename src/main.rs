@@ -86,6 +86,8 @@ fn main() {
 					}
 					AceEvents::BustAces => {}
 				}
+			} else if score < 21 {
+				continue 'player_action;
 			}
 		}
 		player_score = score;
