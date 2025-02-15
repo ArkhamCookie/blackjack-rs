@@ -33,7 +33,6 @@ fn main() {
 	cards.remove(0);
 
 	// Display starting hand
-	// println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
 	println!("Dealer's Hand:\n┌────────┐\n│        │\n│        │\n│        │\n│        │\n└────────┘\n{}",dealer_hand[1]);
 	println!("Your Hand: \n{}\n{}", &player_hand[0], &player_hand[1]);
 
