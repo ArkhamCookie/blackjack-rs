@@ -42,3 +42,30 @@ pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
 		return AceEvents::Safe;
 	}
 }
+
+/// Handles aces in a hand
+/// (assumes Blackjack and BustNone have been handled)
+pub(crate) fn handle_aces(hand: &Vec<Card>) -> u8 {
+	let mut score = 0;
+	let mut aces: u8 = 0;
+
+	for card in hand {
+		if card.rank == Rank::Ace {
+			aces += 1;
+		}
+		score += Card::value(card);
+	}
+
+	if aces == 0 || score <= 21 {
+		return score;
+	}
+
+	for _ in 0..aces {
+		score -= 10;
+		if score <= 21 {
+			break;
+		}
+	}
+
+	score
+}
