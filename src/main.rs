@@ -3,12 +3,14 @@ use std::cmp::Ordering;
 use crate::blackjack::{check_aces, check_blackjack, handle_aces, AceEvents};
 use crate::card::{Card, Rank};
 use crate::deck::Deck;
+use crate::display::display_hand;
 
 use inquire::Select;
 
 mod blackjack;
 mod card;
 mod deck;
+mod display;
 
 fn main() {
 	let deck = Deck::shuffle(1);
@@ -62,17 +64,13 @@ fn main() {
 
 		score = 0;
 
-		println!("Your hand:");
 		'player_action: for card in &player_hand {
 			score += Card::value(card);
-			print!("{}\n", card);
 
 			// Check for blackjack or bust
 			if check_blackjack(&player_hand) {
-				println!("Hand:");
-				for card in &player_hand {
-					println!("{}", card);
-				}
+				println!("Your hand:");
+				display_hand(&player_hand);
 				println!("Blackjack!");
 				return;
 			}
@@ -81,6 +79,8 @@ fn main() {
 				// Check and handle if player has an ace
 				match check_aces(&player_hand) {
 					AceEvents::BustNone => {
+						println!("Your hand:");
+						display_hand(&player_hand);
 						println!("Busted!");
 						return;
 					}
@@ -89,15 +89,20 @@ fn main() {
 
 						match ace_score.cmp(&21) {
 							Ordering::Less => {
+								println!("Your hand:");
+								display_hand(&player_hand);
 								score -= ace_score;
 								continue 'player_action;
 							}
 							Ordering::Equal => {
+								println!("Your hand:");
+								display_hand(&player_hand);
 								println!("Blackjack!");
 								return;
 							}
 							Ordering::Greater => {
-								println!("{}", card);
+								println!("Your hand:");
+								display_hand(&player_hand);
 								println!("Busted!");
 								return;
 							}
@@ -105,6 +110,8 @@ fn main() {
 					}
 				}
 			} else if score < 21 {
+				println!("Your hand:");
+				display_hand(&player_hand);
 				continue 'player_action;
 			}
 		}
