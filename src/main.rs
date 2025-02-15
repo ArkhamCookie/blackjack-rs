@@ -74,30 +74,27 @@ fn main() {
 					return;
 			}
 
-			match score.cmp(&21) {
-				Ordering::Greater => {
-					// Check and handle if player has an ace
-					let mut ace_score = score;
-					for card in &player_hand {
-						if card.rank == Rank::Ace {
-							ace_score -= 10;
+			if score > 21 {
+				// Check and handle if player has an ace
+				let mut ace_score = score;
+				for card in &player_hand {
+					if card.rank == Rank::Ace {
+						ace_score -= 10;
 
-							match ace_score.cmp(&21) {
-								Ordering::Less => {
-									continue 'player_action;
-								}
-								Ordering::Equal => {
-									println!("Blackjack!");
-									return;
-								}
-								Ordering::Greater => {},
+						match ace_score.cmp(&21) {
+							Ordering::Less => {
+								continue 'player_action;
 							}
+							Ordering::Equal => {
+								println!("Blackjack!");
+								return;
+							}
+							Ordering::Greater => {},
 						}
 					}
-					println!("Busted!");
-					return;
 				}
-				_ => {},
+				println!("Busted!");
+				return;
 			}
 		}
 		player_score = score;
