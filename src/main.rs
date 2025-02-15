@@ -62,7 +62,7 @@ fn main() {
 
 		score = 0;
 
-		println!("Your hand: ");
+		println!("Your hand:");
 		'player_action: for card in &player_hand {
 			score += Card::value(card);
 			print!("{}\n", card);
