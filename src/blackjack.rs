@@ -21,6 +21,8 @@ pub(crate) fn check_blackjack(hand: &Vec<Card>) -> bool {
 	false
 }
 
+/// Check for aces in a hand
+/// (assumes Blackjack has already been handled)
 pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
 	let mut score = 0;
 	let mut aces: u8 = 0;
