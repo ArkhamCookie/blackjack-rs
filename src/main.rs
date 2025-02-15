@@ -1,8 +1,8 @@
 use std::cmp::Ordering;
 
-use blackjack::{check_aces, check_blackjack, handle_aces, AceEvents};
-use card::{Card, Rank};
-use deck::Deck;
+use crate::blackjack::{check_aces, check_blackjack, handle_aces, AceEvents};
+use crate::card::{Card, Rank};
+use crate::deck::Deck;
 
 use inquire::Select;
 
