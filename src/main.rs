@@ -70,6 +70,10 @@ fn main() {
 
 			// Check for blackjack or bust
 			if check_blackjack(&player_hand) {
+				println!("Hand:");
+				for card in &player_hand {
+					println!("{}", card);
+				}
 				println!("Blackjack!");
 				return;
 			}
