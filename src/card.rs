@@ -75,15 +75,23 @@ impl fmt::Display for Card {
 			Rank::Jack => String::from("J"),
 			Rank::Queen => String::from("Q"),
 			Rank::King => String::from("K"),
-			_ => Card::value(self).to_string()
+			_ => Card::value(self).to_string(),
 		};
 		let suit_unicode = Suit::unicode(self.suit);
 
 		if self.rank == Rank::Ten {
-			return write!(f, "┌────────┐\n│ {}   {} │\n│        │\n│        │\n│ {}   {} │\n└────────┘", rank, suit_unicode, suit_unicode, rank)
+			return write!(
+				f,
+				"┌────────┐\n│ {}   {} │\n│        │\n│        │\n│ {}   {} │\n└────────┘",
+				rank, suit_unicode, suit_unicode, rank
+			);
 		}
 
-		write!(f, "┌────────┐\n│ {}    {} │\n│        │\n│        │\n│ {}    {} │\n└────────┘", rank, suit_unicode, suit_unicode, rank)
+		write!(
+			f,
+			"┌────────┐\n│ {}    {} │\n│        │\n│        │\n│ {}    {} │\n└────────┘",
+			rank, suit_unicode, suit_unicode, rank
+		)
 	}
 }
 
