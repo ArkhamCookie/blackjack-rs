@@ -80,9 +80,6 @@ fn main() {
 			if score > 21 {
 				// Check and handle if player has an ace
 				match check_aces(&player_hand) {
-					AceEvents::Safe => {
-						continue 'player_action;
-					}
 					AceEvents::BustNone => {
 						println!("Busted!");
 						return;

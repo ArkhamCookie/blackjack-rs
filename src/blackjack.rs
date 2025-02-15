@@ -2,7 +2,6 @@ use crate::{Card, Rank};
 
 #[derive(PartialEq)]
 pub(crate) enum AceEvents {
-	Safe,
 	BustNone,
 	BustAces,
 }
@@ -22,7 +21,7 @@ pub(crate) fn check_blackjack(hand: &Vec<Card>) -> bool {
 }
 
 /// Check for aces in a hand
-/// (assumes Blackjack has already been handled)
+/// (assumes Blackjack and safe has already been handled)
 pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
 	let mut score = 0;
 	let mut aces: u8 = 0;
@@ -36,11 +35,9 @@ pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
 
 	if score > 21 && aces == 0 {
 		return AceEvents::BustNone;
-	} else if aces > 0 {
-		return AceEvents::BustAces;
-	} else {
-		return AceEvents::Safe;
 	}
+
+	AceEvents::BustAces
 }
 
 /// Handles aces in a hand
