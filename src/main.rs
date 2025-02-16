@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 
 use crate::blackjack::{check_hand, GameEvents};
-use crate::card::{Card, Rank};
+use crate::card::Card;
 use crate::deck::Deck;
 use crate::display::display_hand;
 
