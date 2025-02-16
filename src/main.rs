@@ -1,9 +1,8 @@
-use std::cmp::Ordering;
-
 use crate::blackjack::{check_hand, GameEvents};
 use crate::card::Card;
 use crate::deck::Deck;
 use crate::display::display_hand;
+use game::compare_hands;
 
 use inquire::Select;
 
@@ -11,6 +10,7 @@ mod blackjack;
 mod card;
 mod deck;
 mod display;
+mod game;
 
 fn main() {
 	let deck = Deck::shuffle(1);
@@ -39,8 +39,6 @@ fn main() {
 	println!("Your Hand: \n{}\n{}", &player_hand[0], &player_hand[1]);
 
 	// Setup score vars for comparing
-	let player_score: u8;
-	let mut dealer_score: u8;
 	let mut score: u8 = 0;
 
 	for card in &player_hand {
@@ -49,7 +47,8 @@ fn main() {
 		if score == 21 {
 			println!("Your hand:");
 			display_hand(&player_hand);
-			println!("Blackjack!")
+			println!("Blackjack!");
+			return;
 		}
 	}
 
@@ -95,7 +94,6 @@ fn main() {
 			}
 		}
 	}
-	player_score = score;
 
 	// Handle dealer's actions
 	loop {
@@ -107,7 +105,6 @@ fn main() {
 		for card in &dealer_hand {
 			score += Card::value(card);
 		}
-		dealer_score = score;
 
 		let event = check_hand(&dealer_hand);
 
@@ -133,9 +130,10 @@ fn main() {
 	}
 
 	// Get winner based on score
-	match player_score.cmp(&dealer_score) {
-		Ordering::Less => println!("Dealer wins!"),
-		Ordering::Equal => println!("Dealer & Player tie!"),
-		Ordering::Greater => println!("Player wins!"),
+	match compare_hands(&player_hand, &dealer_hand) {
+		1 => println!("Player Wins!"),
+		2 => println!("Dealer Wins!"),
+		3 => println!("Player & Dealer Tie!"),
+		_ => eprintln!("issue getting winner"),
 	}
 }
