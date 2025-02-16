@@ -101,27 +101,15 @@ fn main() {
 		for card in &dealer_hand {
 			score += Card::value(card);
 			print!("{}\n", card);
-
-			// Check for blackjack or bust
-			match score.cmp(&21) {
-				Ordering::Less => (),
-				Ordering::Equal => {
-					println!("\nDealer gets blackjack!");
-					return;
-				}
-				Ordering::Greater => {
-					println!("\nDealer busts!");
-					return;
-				}
-			}
 		}
 		dealer_score = score;
-
-		println!();
 
 		if score >= 17 {
 			println!("Dealer stays.");
 			break 'dealer_action;
+		} else if score == 21 {
+			println!("Dealer gets Blackjack");
+			return;
 		}
 
 		dealer_hand.push(cards[0]);
