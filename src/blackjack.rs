@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use crate::{Card, Rank};
+use crate::card::{Card, Rank};
 
 #[derive(PartialEq)]
 enum AceEvents {
@@ -9,38 +9,10 @@ enum AceEvents {
 }
 
 #[derive(Debug, PartialEq)]
-pub(crate) enum GameEvents {
+pub enum GameEvents {
 	Safe,
 	Blackjack,
 	Bust,
-}
-
-/// Check if hand has blackjack
-pub(crate) fn check_hand(hand: &Vec<Card>) -> GameEvents {
-	let mut score = 0;
-
-	for card in hand {
-		score += Card::value(card);
-	}
-
-	if score < 21 {
-		return GameEvents::Safe;
-	} else if score == 21 {
-		return GameEvents::Blackjack;
-	}
-
-	match check_aces(hand) {
-		AceEvents::BustNone => GameEvents::Bust,
-		AceEvents::BustAces => {
-			let ace_score = handle_aces(hand);
-
-			match ace_score.cmp(&21) {
-				Ordering::Less => GameEvents::Safe,
-				Ordering::Equal => GameEvents::Blackjack,
-				Ordering::Greater => GameEvents::Bust,
-			}
-		}
-	}
 }
 
 /// Check for aces in a hand
@@ -88,6 +60,34 @@ fn handle_aces(hand: &Vec<Card>) -> u8 {
 	}
 
 	score
+}
+
+/// Check if hand has blackjack
+pub fn check_hand(hand: &Vec<Card>) -> GameEvents {
+	let mut score = 0;
+
+	for card in hand {
+		score += Card::value(card);
+	}
+
+	if score < 21 {
+		return GameEvents::Safe;
+	} else if score == 21 {
+		return GameEvents::Blackjack;
+	}
+
+	match check_aces(hand) {
+		AceEvents::BustNone => GameEvents::Bust,
+		AceEvents::BustAces => {
+			let ace_score = handle_aces(hand);
+
+			match ace_score.cmp(&21) {
+				Ordering::Less => GameEvents::Safe,
+				Ordering::Equal => GameEvents::Blackjack,
+				Ordering::Greater => GameEvents::Bust,
+			}
+		}
+	}
 }
 
 #[cfg(test)]

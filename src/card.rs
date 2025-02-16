@@ -3,7 +3,7 @@ use std::fmt;
 use strum::EnumIter;
 
 #[derive(Clone, Copy, Debug, EnumIter)]
-pub(crate) enum Suit {
+pub enum Suit {
 	Clubs,
 	Diamonds,
 	Hearts,
@@ -22,7 +22,7 @@ impl Suit {
 }
 
 #[derive(Clone, Copy, Debug, EnumIter, PartialEq)]
-pub(crate) enum Rank {
+pub enum Rank {
 	Ace,
 	Two,
 	Three,
@@ -39,17 +39,17 @@ pub(crate) enum Rank {
 }
 
 #[derive(Clone, Copy, Debug)]
-pub(crate) struct Card {
-	pub(crate) suit: Suit,
-	pub(crate) rank: Rank,
+pub struct Card {
+	pub suit: Suit,
+	pub rank: Rank,
 }
 
 impl Card {
-	pub(crate) fn new(suit: Suit, rank: Rank) -> Self {
+	pub fn new(suit: Suit, rank: Rank) -> Self {
 		Self { suit, rank }
 	}
 
-	pub(crate) fn value(card: &Card) -> u8 {
+	pub fn value(card: &Card) -> u8 {
 		match card.rank {
 			Rank::Ace => 11,
 			Rank::Two => 2,
