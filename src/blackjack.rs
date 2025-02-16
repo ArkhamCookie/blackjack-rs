@@ -123,4 +123,64 @@ mod tests {
 
 		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
 	}
+
+	#[test]
+	fn check_blackjack_equal_ace_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_blackjack(&hand), GameEvents::Blackjack);
+	}
+
+	#[test]
+	fn check_blackjack_over_ace_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
+	}
+
+	#[test]
+	fn check_blackjack_under_ace_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Nine));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_blackjack(&hand), GameEvents::Safe);
+	}
+
+	#[test]
+	fn check_blackjack_equal_aces_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Nine));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_blackjack(&hand), GameEvents::Blackjack);
+	}
+
+	#[test]
+	fn check_blackjack_over_aces_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
+	}
+
+	#[test]
+	fn check_blackjack_under_aces_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Eight));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_blackjack(&hand), GameEvents::Safe);
+	}
 }
