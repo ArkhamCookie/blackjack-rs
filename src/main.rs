@@ -118,7 +118,6 @@ fn main() {
 		dealer_score = score;
 
 		println!();
-		// println!("{}", score);
 
 		if score >= 17 {
 			println!("Dealer stays.");
