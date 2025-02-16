@@ -16,7 +16,7 @@ pub(crate) enum GameEvents {
 }
 
 /// Check if hand has blackjack
-pub(crate) fn check_blackjack(hand: &Vec<Card>) -> GameEvents {
+pub(crate) fn check_hand(hand: &Vec<Card>) -> GameEvents {
 	let mut score = 0;
 
 	for card in hand {
@@ -92,95 +92,95 @@ fn handle_aces(hand: &Vec<Card>) -> u8 {
 
 #[cfg(test)]
 mod tests {
-	use crate::blackjack::{check_blackjack, GameEvents};
+	use crate::blackjack::{check_hand, GameEvents};
 	use crate::card::{Card, Rank, Suit};
 
 	#[test]
-	fn check_blackjack_equal_test() {
+	fn check_hand_equal_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Six));
 		hand.push(Card::new(Suit::Spades, Rank::Five));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Blackjack);
+		assert_eq!(check_hand(&hand), GameEvents::Blackjack);
 	}
 
 	#[test]
-	fn check_blackjack_under_test() {
+	fn check_hand_under_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Safe);
+		assert_eq!(check_hand(&hand), GameEvents::Safe);
 	}
 
 	#[test]
-	fn check_blackjack_over_test() {
+	fn check_hand_over_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
+		assert_eq!(check_hand(&hand), GameEvents::Bust);
 	}
 
 	#[test]
-	fn check_blackjack_equal_ace_test() {
+	fn check_hand_equal_ace_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Blackjack);
+		assert_eq!(check_hand(&hand), GameEvents::Blackjack);
 	}
 
 	#[test]
-	fn check_blackjack_over_ace_test() {
+	fn check_hand_over_ace_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
+		assert_eq!(check_hand(&hand), GameEvents::Bust);
 	}
 
 	#[test]
-	fn check_blackjack_under_ace_test() {
-		let mut hand = Vec::new();
-		hand.push(Card::new(Suit::Spades, Rank::Nine));
-		hand.push(Card::new(Suit::Spades, Rank::Ace));
-
-		assert_eq!(check_blackjack(&hand), GameEvents::Safe);
-	}
-
-	#[test]
-	fn check_blackjack_equal_aces_test() {
+	fn check_hand_under_ace_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Nine));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
-		hand.push(Card::new(Suit::Spades, Rank::Ace));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Blackjack);
+		assert_eq!(check_hand(&hand), GameEvents::Safe);
 	}
 
 	#[test]
-	fn check_blackjack_over_aces_test() {
+	fn check_hand_equal_aces_test() {
+		let mut hand = Vec::new();
+		hand.push(Card::new(Suit::Spades, Rank::Nine));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+		hand.push(Card::new(Suit::Spades, Rank::Ace));
+
+		assert_eq!(check_hand(&hand), GameEvents::Blackjack);
+	}
+
+	#[test]
+	fn check_hand_over_aces_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
+		assert_eq!(check_hand(&hand), GameEvents::Bust);
 	}
 
 	#[test]
-	fn check_blackjack_under_aces_test() {
+	fn check_hand_under_aces_test() {
 		let mut hand = Vec::new();
 		hand.push(Card::new(Suit::Spades, Rank::Eight));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
 		hand.push(Card::new(Suit::Spades, Rank::Ace));
 
-		assert_eq!(check_blackjack(&hand), GameEvents::Safe);
+		assert_eq!(check_hand(&hand), GameEvents::Safe);
 	}
 }

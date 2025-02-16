@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use crate::blackjack::{check_blackjack, GameEvents};
+use crate::blackjack::{check_hand, GameEvents};
 use crate::card::{Card, Rank};
 use crate::deck::Deck;
 use crate::display::display_hand;
@@ -77,7 +77,7 @@ fn main() {
 				score += Card::value(card);
 			}
 
-			let event = check_blackjack(&player_hand);
+			let event = check_hand(&player_hand);
 
 			match event {
 				GameEvents::Safe => continue 'player_action,
@@ -104,7 +104,7 @@ fn main() {
 			score += Card::value(card);
 		}
 		dealer_score = score;
-		let event = check_blackjack(&dealer_hand);
+		let event = check_hand(&dealer_hand);
 
 		match event {
 			GameEvents::Safe => {
