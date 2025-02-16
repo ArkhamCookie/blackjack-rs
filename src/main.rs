@@ -49,7 +49,7 @@ fn main() {
 		if score == 21 {
 			println!("Your hand:");
 			display_hand(&player_hand);
-			println!("Blackjack!")
+			println!("Blackjack!");
 			return;
 		}
 	}
