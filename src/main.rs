@@ -39,7 +39,7 @@ fn main() {
 	println!("Your Hand: \n{}\n{}", &player_hand[0], &player_hand[1]);
 
 	// Setup score vars for comparing
-	let mut player_score: u8 = 0;
+	let player_score: u8;
 	let mut dealer_score: u8;
 	let mut score: u8 = 0;
 
@@ -54,7 +54,7 @@ fn main() {
 	}
 
 	// Get player's action
-	loop {
+	'player_action: loop {
 		let options = vec!["Hit", "Stay"];
 		let answer = Select::new("Hit or stay?", options)
 			.prompt()
@@ -69,9 +69,13 @@ fn main() {
 
 		score = 0;
 
-		'player_action: for card in &player_hand {
+		while answer == "Hit" {
+			println!("Your hand:");
 			display_hand(&player_hand);
-			score += Card::value(card);
+
+			for card in &player_hand {
+				score += Card::value(card);
+			}
 
 			let event = check_blackjack(&player_hand);
 
@@ -87,10 +91,8 @@ fn main() {
 				}
 			}
 		}
-		player_score = score;
-
-		println!();
 	}
+	player_score = score;
 
 	'dealer_action: loop {
 		println!("Dealer hand:");
