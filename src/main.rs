@@ -124,6 +124,7 @@ fn main() {
 			}
 			GameEvents::Bust => {
 				println!("Dealer busted!");
+				return;
 			}
 		}
 
