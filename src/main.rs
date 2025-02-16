@@ -93,7 +93,7 @@ fn main() {
 	}
 
 	'dealer_action: loop {
-		println!("Dealer hand: ");
+		println!("Dealer hand:");
 		display_hand(&dealer_hand);
 
 		let mut score: u8 = 0;
