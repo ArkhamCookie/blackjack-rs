@@ -9,14 +9,14 @@ enum AceEvents {
 }
 
 #[derive(Debug, PartialEq)]
-pub(crate) enum GameEvents {
+pub enum GameEvents {
 	Safe,
 	Blackjack,
 	Bust,
 }
 
 /// Check if hand has blackjack
-pub(crate) fn check_hand(hand: &Vec<Card>) -> GameEvents {
+pub fn check_hand(hand: &Vec<Card>) -> GameEvents {
 	let mut score = 0;
 
 	for card in hand {

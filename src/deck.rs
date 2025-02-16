@@ -6,12 +6,12 @@ use rand::seq::SliceRandom;
 use strum::IntoEnumIterator;
 
 #[derive(Debug)]
-pub(crate) struct Deck {
-	pub(crate) cards: Vec<Card>,
+pub struct Deck {
+	pub cards: Vec<Card>,
 }
 
 impl Deck {
-	pub(crate) fn new(mut deck_count: u8) -> Self {
+	pub fn new(mut deck_count: u8) -> Self {
 		let mut cards = Vec::new();
 
 		while deck_count > 0 {
@@ -27,7 +27,7 @@ impl Deck {
 		Deck { cards }
 	}
 
-	pub(crate) fn shuffle(deck_count: u8) -> Self {
+	pub fn shuffle(deck_count: u8) -> Self {
 		let deck = Deck::new(deck_count);
 		let mut cards = deck.cards;
 		cards.shuffle(&mut rng());
