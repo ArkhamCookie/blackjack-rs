@@ -108,6 +108,7 @@ fn main() {
 			score += Card::value(card);
 		}
 		dealer_score = score;
+
 		let event = check_hand(&dealer_hand);
 
 		match event {
