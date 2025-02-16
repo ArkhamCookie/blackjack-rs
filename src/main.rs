@@ -54,7 +54,7 @@ fn main() {
 	}
 
 	// Get player's action
-	'player_action: loop {
+	loop {
 		let options = vec!["Hit", "Stay"];
 		let answer = Select::new("Hit or stay?", options)
 			.prompt()
@@ -69,7 +69,7 @@ fn main() {
 
 		score = 0;
 
-		while answer == "Hit" {
+		if answer == "Hit" {
 			println!("Your hand:");
 			display_hand(&player_hand);
 
@@ -80,7 +80,7 @@ fn main() {
 			let event = check_hand(&player_hand);
 
 			match event {
-				GameEvents::Safe => continue 'player_action,
+				GameEvents::Safe => continue,
 				GameEvents::Blackjack => {
 					println!("Blackjack!");
 					return;
@@ -94,7 +94,7 @@ fn main() {
 	}
 	player_score = score;
 
-	'dealer_action: loop {
+	loop {
 		println!("Dealer hand:");
 		display_hand(&dealer_hand);
 
@@ -110,7 +110,7 @@ fn main() {
 			GameEvents::Safe => {
 				if score >= 17 {
 					println!("Dealer stays.");
-					break 'dealer_action;
+					break;
 				}
 			}
 			GameEvents::Blackjack => {
