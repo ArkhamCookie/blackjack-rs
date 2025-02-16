@@ -1,29 +1,51 @@
+use std::cmp::Ordering;
+
 use crate::{Card, Rank};
 
 #[derive(PartialEq)]
-pub(crate) enum AceEvents {
+enum AceEvents {
 	BustNone,
 	BustAces,
 }
 
+#[derive(Debug, PartialEq)]
+pub(crate) enum GameEvents {
+	Safe,
+	Blackjack,
+	Bust,
+}
+
 /// Check if hand has blackjack
-pub(crate) fn check_blackjack(hand: &Vec<Card>) -> bool {
+pub(crate) fn check_blackjack(hand: &Vec<Card>) -> GameEvents {
 	let mut score = 0;
 
 	for card in hand {
 		score += Card::value(card);
 	}
 
-	if score == 21 {
-		return true;
+	if score < 21 {
+		return GameEvents::Safe;
+	} else if score == 21 {
+		return GameEvents::Blackjack;
 	}
 
-	false
+	match check_aces(hand) {
+		AceEvents::BustNone => GameEvents::Bust,
+		AceEvents::BustAces => {
+			let ace_score = handle_aces(hand);
+
+			match ace_score.cmp(&21) {
+				Ordering::Less => GameEvents::Safe,
+				Ordering::Equal => GameEvents::Blackjack,
+				Ordering::Greater => GameEvents::Bust,
+			}
+		}
+	}
 }
 
 /// Check for aces in a hand
 /// (assumes Blackjack and safe has already been handled)
-pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
+fn check_aces(hand: &Vec<Card>) -> AceEvents {
 	let mut score = 0;
 	let mut aces: u8 = 0;
 
@@ -43,7 +65,7 @@ pub(crate) fn check_aces(hand: &Vec<Card>) -> AceEvents {
 
 /// Handles aces in a hand
 /// (assumes Blackjack and BustNone have been handled)
-pub(crate) fn handle_aces(hand: &Vec<Card>) -> u8 {
+fn handle_aces(hand: &Vec<Card>) -> u8 {
 	let mut score = 0;
 	let mut aces: u8 = 0;
 
@@ -70,7 +92,7 @@ pub(crate) fn handle_aces(hand: &Vec<Card>) -> u8 {
 
 #[cfg(test)]
 mod tests {
-	use crate::blackjack::check_blackjack;
+	use crate::blackjack::{check_blackjack, GameEvents};
 	use crate::card::{Card, Rank, Suit};
 
 	#[test]
@@ -80,7 +102,7 @@ mod tests {
 		hand.push(Card::new(Suit::Spades, Rank::Six));
 		hand.push(Card::new(Suit::Spades, Rank::Five));
 
-		assert_eq!(check_blackjack(&hand), true);
+		assert_eq!(check_blackjack(&hand), GameEvents::Blackjack);
 	}
 
 	#[test]
@@ -89,7 +111,7 @@ mod tests {
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 
-		assert_eq!(check_blackjack(&hand), false);
+		assert_eq!(check_blackjack(&hand), GameEvents::Safe);
 	}
 
 	#[test]
@@ -99,6 +121,6 @@ mod tests {
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Ten));
 
-		assert_eq!(check_blackjack(&hand), false);
+		assert_eq!(check_blackjack(&hand), GameEvents::Bust);
 	}
 }

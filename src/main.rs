@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use crate::blackjack::{check_aces, check_blackjack, handle_aces, AceEvents};
+use crate::blackjack::{check_blackjack, GameEvents};
 use crate::card::{Card, Rank};
 use crate::deck::Deck;
 use crate::display::display_hand;
@@ -41,11 +41,16 @@ fn main() {
 	// Setup score vars for comparing
 	let mut player_score: u8 = 0;
 	let mut dealer_score: u8;
-	let mut score: u8;
+	let mut score: u8 = 0;
 
-	if check_blackjack(&player_hand) {
-		println!("Blackjack!");
-		return;
+	for card in &player_hand {
+		score += Card::value(card);
+
+		if score == 21 {
+			println!("Your hand:");
+			display_hand(&player_hand);
+			println!("Blackjack!")
+		}
 	}
 
 	// Get player's action
@@ -65,54 +70,21 @@ fn main() {
 		score = 0;
 
 		'player_action: for card in &player_hand {
+			display_hand(&player_hand);
 			score += Card::value(card);
 
-			// Check for blackjack or bust
-			if check_blackjack(&player_hand) {
-				println!("Your hand:");
-				display_hand(&player_hand);
-				println!("Blackjack!");
-				return;
-			}
+			let event = check_blackjack(&player_hand);
 
-			if score > 21 {
-				// Check and handle if player has an ace
-				match check_aces(&player_hand) {
-					AceEvents::BustNone => {
-						println!("Your hand:");
-						display_hand(&player_hand);
-						println!("Busted!");
-						return;
-					}
-					AceEvents::BustAces => {
-						let ace_score = handle_aces(&player_hand);
-
-						match ace_score.cmp(&21) {
-							Ordering::Less => {
-								println!("Your hand:");
-								display_hand(&player_hand);
-								score -= ace_score;
-								continue 'player_action;
-							}
-							Ordering::Equal => {
-								println!("Your hand:");
-								display_hand(&player_hand);
-								println!("Blackjack!");
-								return;
-							}
-							Ordering::Greater => {
-								println!("Your hand:");
-								display_hand(&player_hand);
-								println!("Busted!");
-								return;
-							}
-						}
-					}
+			match event {
+				GameEvents::Safe => continue 'player_action,
+				GameEvents::Blackjack => {
+					println!("Blackjack!");
+					return;
 				}
-			} else if score < 21 {
-				println!("Your hand:");
-				display_hand(&player_hand);
-				continue 'player_action;
+				GameEvents::Bust => {
+					println!("Busted!");
+					return;
+				}
 			}
 		}
 		player_score = score;
@@ -121,9 +93,11 @@ fn main() {
 	}
 
 	'dealer_action: loop {
+		println!("Dealer hand: ");
+		display_hand(&dealer_hand);
+
 		let mut score: u8 = 0;
 
-		println!("Dealer hand: ");
 		for card in &dealer_hand {
 			score += Card::value(card);
 			print!("{}\n", card);
