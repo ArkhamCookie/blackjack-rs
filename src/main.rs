@@ -1,12 +1,16 @@
 use std::cmp::Ordering;
 
-use card::{Card, Rank};
-use deck::Deck;
+use crate::blackjack::{check_hand, GameEvents};
+use crate::card::{Card, Rank};
+use crate::deck::Deck;
+use crate::display::display_hand;
 
 use inquire::Select;
 
+mod blackjack;
 mod card;
 mod deck;
+mod display;
 
 fn main() {
 	let deck = Deck::shuffle(1);
@@ -31,12 +35,11 @@ fn main() {
 	cards.remove(0);
 
 	// Display starting hand
-	// println!("Dealer's Hand: 🂠, {}", Card::unicode(&dealer_hand[1]));
 	println!("Dealer's Hand:\n┌────────┐\n│        │\n│        │\n│        │\n│        │\n└────────┘\n{}",dealer_hand[1]);
 	println!("Your Hand: \n{}\n{}", &player_hand[0], &player_hand[1]);
 
 	// Setup score vars for comparing
-	let mut player_score: u8 = 0;
+	let player_score: u8;
 	let mut dealer_score: u8;
 	let mut score: u8 = 0;
 
@@ -44,13 +47,15 @@ fn main() {
 		score += Card::value(card);
 
 		if score == 21 {
-			println!("\nBlackjack!");
-			return;
+			println!("Your hand:");
+			display_hand(&player_hand);
+			println!("Blackjack!")
 		}
 	}
 
 	// Get player's action
 	loop {
+		// Get player's choice
 		let options = vec!["Hit", "Stay"];
 		let answer = Select::new("Hit or stay?", options)
 			.prompt()
@@ -60,82 +65,66 @@ fn main() {
 			break;
 		}
 
+		// Deal card
 		player_hand.push(cards[0]);
 		cards.remove(0);
 
 		score = 0;
 
-		println!("Your hand: ");
-		'player_action: for card in &player_hand {
-			score += Card::value(card);
-			print!("{}\n", card);
+		if answer == "Hit" {
+			println!("Your hand:");
+			display_hand(&player_hand);
 
-			// Check for blackjack or bust
-			match score.cmp(&21) {
-				Ordering::Less => (),
-				Ordering::Equal => {
+			for card in &player_hand {
+				score += Card::value(card);
+			}
+
+			// Get what hand is
+			let event = check_hand(&player_hand);
+
+			match event {
+				GameEvents::Safe => continue,
+				GameEvents::Blackjack => {
 					println!("Blackjack!");
 					return;
 				}
-				Ordering::Greater => {
-					// Check and handle if player has an ace
-					let mut ace_score = score;
-					for card in &player_hand {
-						if card.rank == Rank::Ace {
-							ace_score -= 10;
-
-							match ace_score.cmp(&21) {
-								Ordering::Less => {
-									continue 'player_action;
-								}
-								Ordering::Equal => {
-									println!("Blackjack!");
-									return;
-								}
-								Ordering::Greater => (),
-							}
-						}
-					}
+				GameEvents::Bust => {
 					println!("Busted!");
 					return;
 				}
 			}
 		}
-		player_score = score;
-
-		println!();
-		// println!("{}", score);
 	}
+	player_score = score;
 
-	'dealer_action: loop {
+	// Handle dealer's actions
+	loop {
+		println!("Dealer hand:");
+		display_hand(&dealer_hand);
+
 		let mut score: u8 = 0;
 
-		println!("Dealer hand: ");
 		for card in &dealer_hand {
 			score += Card::value(card);
-			print!("{}\n", card);
-
-			// Check for blackjack or bust
-			match score.cmp(&21) {
-				Ordering::Less => (),
-				Ordering::Equal => {
-					println!("\nDealer gets blackjack!");
-					return;
-				}
-				Ordering::Greater => {
-					println!("\nDealer busts!");
-					return;
-				}
-			}
 		}
 		dealer_score = score;
 
-		println!();
-		// println!("{}", score);
+		let event = check_hand(&dealer_hand);
 
-		if score >= 17 {
-			println!("Dealer stays.");
-			break 'dealer_action;
+		match event {
+			GameEvents::Safe => {
+				if score >= 17 {
+					println!("Dealer stays.");
+					break;
+				}
+			}
+			GameEvents::Blackjack => {
+				println!("Dealer gets Blackjack");
+				return;
+			}
+			GameEvents::Bust => {
+				println!("Dealer busted!");
+			}
 		}
 
 		dealer_hand.push(cards[0]);
