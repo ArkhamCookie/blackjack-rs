@@ -50,6 +50,7 @@ fn main() {
 			println!("Your hand:");
 			display_hand(&player_hand);
 			println!("Blackjack!")
+			return;
 		}
 	}
 
