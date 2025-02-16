@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use crate::{Card, Rank};
+use crate::card::{Card, Rank};
 
 #[derive(PartialEq)]
 enum AceEvents {
