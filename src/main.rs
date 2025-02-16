@@ -103,13 +103,22 @@ fn main() {
 			print!("{}\n", card);
 		}
 		dealer_score = score;
+		let event = check_blackjack(&dealer_hand);
 
-		if score >= 17 {
-			println!("Dealer stays.");
-			break 'dealer_action;
-		} else if score == 21 {
-			println!("Dealer gets Blackjack");
-			return;
+		match event {
+			GameEvents::Safe => {
+				if score >= 17 {
+					println!("Dealer stays.");
+					break 'dealer_action;
+				}
+			}
+			GameEvents::Blackjack => {
+				println!("Dealer gets Blackjack");
+				return;
+			}
+			GameEvents::Bust => {
+				println!("Dealer busted!");
+			}
 		}
 
 		dealer_hand.push(cards[0]);
