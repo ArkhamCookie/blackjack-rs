@@ -76,7 +76,7 @@ mod tests {
 	#[test]
 	fn check_blackjack_equal_test() {
 		let mut hand = Vec::new();
-		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
 		hand.push(Card::new(Suit::Spades, Rank::Six));
 		hand.push(Card::new(Suit::Spades, Rank::Five));
 
@@ -86,8 +86,8 @@ mod tests {
 	#[test]
 	fn check_blackjack_under_test() {
 		let mut hand = Vec::new();
-		hand.push(Card::new(Suit::Spades, Rank::Jack));
-		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
 
 		assert_eq!(check_blackjack(&hand), false);
 	}
@@ -95,9 +95,9 @@ mod tests {
 	#[test]
 	fn check_blackjack_over_test() {
 		let mut hand = Vec::new();
-		hand.push(Card::new(Suit::Spades, Rank::Jack));
-		hand.push(Card::new(Suit::Spades, Rank::Jack));
-		hand.push(Card::new(Suit::Spades, Rank::Jack));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
+		hand.push(Card::new(Suit::Spades, Rank::Ten));
 
 		assert_eq!(check_blackjack(&hand), false);
 	}
