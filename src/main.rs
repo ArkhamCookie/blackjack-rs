@@ -55,6 +55,7 @@ fn main() {
 
 	// Get player's action
 	loop {
+		// Get player's choice
 		let options = vec!["Hit", "Stay"];
 		let answer = Select::new("Hit or stay?", options)
 			.prompt()
@@ -64,6 +65,7 @@ fn main() {
 			break;
 		}
 
+		// Deal card
 		player_hand.push(cards[0]);
 		cards.remove(0);
 
@@ -77,6 +79,7 @@ fn main() {
 				score += Card::value(card);
 			}
 
+			// Get what hand is
 			let event = check_hand(&player_hand);
 
 			match event {
@@ -94,6 +97,7 @@ fn main() {
 	}
 	player_score = score;
 
+	// Handle dealer's actions
 	loop {
 		println!("Dealer hand:");
 		display_hand(&dealer_hand);
