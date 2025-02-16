@@ -100,7 +100,6 @@ fn main() {
 
 		for card in &dealer_hand {
 			score += Card::value(card);
-			print!("{}\n", card);
 		}
 		dealer_score = score;
 		let event = check_blackjack(&dealer_hand);
